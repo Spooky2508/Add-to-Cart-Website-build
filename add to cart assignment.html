@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Product Page</title>
+
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #1abc9c;
+        }
+
+        .cart-button {
+            position: relative;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .cart-button:hover {
+            background-color: #c0392b;
+        }
+
+        .cart-icon {
+            font-size: 20px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: white;
+            color: red;
+            border-radius: 50%;
+            padding: 3px 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Product Section Styles */
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .product-price {
+            color: #e74c3c;
+            font-size: 16px;
+        }
+
+        .buy-button {
+            margin-top: 10px;
+            background-color: #1abc9c;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .buy-button:hover {
+            background-color: #16a085;
+        }
+
+        /* Cart Section Styles */
+        .cart {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart h2 {
+            margin-bottom: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .cart-total {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">ShopEasy</div>
+
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#deals">Deals</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Cart Button -->
+        <button class="cart-button" id="cart-button">
+            <span class="cart-icon">&#128722;</span>
+            <div class="cart-badge" id="cart-badge">0</div>
+        </button>
+    </header>
+
+    <section class="product-list">
+        <div class="product-card">
+            <div class="product-name">Wireless Headphones</div>
+            <div class="product-price" data-price="99.99">$99.99</div>
+            <button class="buy-button">Buy Now</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-name">Smartwatch</div>
+            <div class="product-price" data-price="199.99">$199.99</div>
+            <button class="buy-button">Buy Now</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-name">Bluetooth Speaker</div>
+            <div class="product-price" data-price="49.99">$49.99</div>
+            <button class="buy-button">Buy Now</button>
+        </div>
+    </section>
+
+    <section class="cart" id="cart-section">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <div class="cart-total" id="cart-total">Total: $0.00</div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Fredrick's Website. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const cartBadge = document.getElementById('cart-badge');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const buyButtons = document.querySelectorAll('.buy-button');
+
+        let cartCount = 0;
+        let totalPrice = 0;
+
+        buyButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const productCard = event.target.parentElement;
+                const productName = productCard.querySelector('.product-name').textContent;
+                const productPrice = parseFloat(productCard.querySelector('.product-price').getAttribute('data-price'));
+
+                // Add item to cart list
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `<span>${productName}</span><span>$${productPrice.toFixed(2)}</span>`;
+                cartItems.appendChild(cartItem);
+
+                // Update cart badge and total price
+                cartCount++;
+                totalPrice += productPrice;
+
+                cartBadge.textContent = cartCount;
+                cartTotal.textContent = `Total: $${totalPrice.toFixed(2)}`;
+            });
+        });
+    </script>
+</body>
+</html>
